@@ -1,1 +1,19 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queue:
+      name: resource-ids-queue
+    template:
+      exchange: resource-ids-exchange
+      routing-key: resource-ids-routing-key
 
+server:
+  port: 8090
+
+services:
+  url:
+    resource-service: http://localhost:8080/api/v1/resources
+    song-service: http://localhost:8081/api/v1/songs
