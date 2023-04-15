@@ -5,16 +5,14 @@ spring:
         onReceive-in-0:
           destination: resource-ids
           group: resource-processor
+          consumer:
+            max-attempts: 2             # failed messages are delivered to the DLQ after retries are exhausted.
       rabbit:
         bindings:
           onReceive-in-0:
             consumer:
-              # The logic of retrying is actually to use DLQ, set a default exchange to it, and after the TTL time expires, the message will be redirected to the queue corresponding to the specified exchange
-              autoBindDlq: true # set to true to enable DLQ
-              dlq-ttl: 5_000 # sets a dead letter message timeout, which disguises the retry interval
-              dlqDeadLetterExchange: # leave it blank to set the default value. With the default value, the message in DLQ will be delivered to the quque with the corresponding name according to the value of its routingKey
-              republish-to-dlq: true # to know the exact exception of the last error; will add detailed exception and exception stack information in the message header
-              acknowledge-mode: manual # inject the channel into the consuming side and handle it manually
+              autoBindDlq: true         # set to true to enable DLQ
+              republish-to-dlq: true    # to know the exact exception of the last error; will add detailed exception and exception stack information in the message header
   rabbitmq:
     host: localhost
     port: 5672
@@ -36,4 +34,4 @@ services:
 
 logging:
   level:
-    root: info
+    root: debug

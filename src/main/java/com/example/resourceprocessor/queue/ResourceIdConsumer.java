@@ -6,8 +6,6 @@ import com.example.resourceprocessor.rest.entity.SongRecordMetadataRequestEntity
 import com.example.resourceprocessor.retry.RestTemplateWithTimeoutAndRetry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.AmqpRejectAndDontRequeueException;
-import org.springframework.amqp.ImmediateAcknowledgeAmqpException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +22,6 @@ public class ResourceIdConsumer {
 
     private final RestTemplateWithTimeoutAndRetry restTemplateWithTimeoutAndRetry;
     private final ServicesConfig servicesConfig;
-
-    // todo: try to retry pattern
-    // todo: https://www.springcloud.io/post/2022-06/spring-cloud-stream-rabbitmq/#gsc.tab=0
 
     @Bean
     public Consumer<String> onReceive() {
@@ -57,9 +52,7 @@ public class ResourceIdConsumer {
                 restTemplateWithTimeoutAndRetry.exchange(songMetadataRequestEntity, SavedSongRecordMetadataResponseEntity.class);
             } catch (Exception e) {
                 log.error("fail to process message, ex {}", e.getMessage());
-                // todo: handle properly using SCS
-//                throw new AmqpRejectAndDontRequeueException(e.getMessage());
-                throw new ImmediateAcknowledgeAmqpException(e.getMessage());
+                throw new RuntimeException(e.getMessage());
             }
         };
     }
