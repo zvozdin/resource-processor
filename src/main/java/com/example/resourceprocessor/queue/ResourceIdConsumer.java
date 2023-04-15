@@ -6,6 +6,7 @@ import com.example.resourceprocessor.rest.entity.SongRecordMetadataRequestEntity
 import com.example.resourceprocessor.retry.RestTemplateWithTimeoutAndRetry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,7 @@ public class ResourceIdConsumer {
                 restTemplateWithTimeoutAndRetry.exchange(songMetadataRequestEntity, SavedSongRecordMetadataResponseEntity.class);
             } catch (Exception e) {
                 log.error("fail to process message, ex {}", e.getMessage());
-                throw new RuntimeException(e.getMessage());
+                throw new AmqpRejectAndDontRequeueException(e.getMessage());
             }
         };
     }
