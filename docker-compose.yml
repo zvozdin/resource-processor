@@ -1,0 +1,22 @@
+version: "3.0"
+
+services:
+  resource-processor-app:
+    image: resource-processor-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: resource-processor-app-microservices_course
+    environment:
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SERVICES_URL_RESOURCESERVICE: ${RESOURCE_SERVICE_URL}
+      SERVICES_URL_SONGSERVICE: ${SONG_SERVICE_URL}
+    networks:
+      - resourceservice_default
+      - songservice_default
+
+networks:
+  resourceservice_default:
+    external: true
+  songservice_default:
+    external: true
