@@ -12,11 +12,11 @@ services:
       SERVICES_URL_RESOURCESERVICE: ${RESOURCE_SERVICE_URL}
       SERVICES_URL_SONGSERVICE: ${SONG_SERVICE_URL}
     networks:
-      - resourceservice_default
-      - songservice_default
+      - resource-service_default
+      - song-service_default
 
 networks:
-  resourceservice_default:
+  resource-service_default:
     external: true
-  songservice_default:
+  song-service_default:
     external: true

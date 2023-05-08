@@ -1,9 +1,20 @@
-FROM eclipse-temurin:17-jdk-alpine
+########Maven build stage########
+FROM maven:3.8.1-openjdk-17-slim as maven_build
 
 MAINTAINER Oleksandr Zvozdin <zvyozdin@gmail.com>
 
-ARG JAR_FILE=./target/*.jar
+WORKDIR /project
+COPY pom.xml .
+COPY src ./src
 
-COPY ${JAR_FILE} app.jar
+# build the app and download dependencies only when these are new (thanks to the cache)
+RUN --mount=type=cache,target=/root/.m2  mvn clean package -Dmaven.test.skip
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+########JRE run stage########
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /application
+
+COPY --from=maven_build /project/target/*.jar /application/app.jar
+
+ENTRYPOINT ["java","-jar","/application/app.jar"]
