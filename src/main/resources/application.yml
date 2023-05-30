@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: resource-processor
   cloud:
     stream:
       bindings:
@@ -35,3 +37,16 @@ services:
 logging:
   level:
     root: info
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 2000
+        loggerLevel: basic
