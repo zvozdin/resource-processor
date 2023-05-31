@@ -9,14 +9,13 @@ services:
     container_name: resource-processor-app-microservices_course
     environment:
       SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
-      SERVICES_URL_RESOURCESERVICE: ${RESOURCE_SERVICE_URL}
-      SERVICES_URL_SONGSERVICE: ${SONG_SERVICE_URL}
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
     networks:
-      - resource-service_default
-      - song-service_default
+      - service-registry_default
+      - resource-service_rabbitmq
 
 networks:
-  resource-service_default:
+  service-registry_default:
     external: true
-  song-service_default:
+  resource-service_rabbitmq:
     external: true

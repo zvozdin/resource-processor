@@ -29,11 +29,6 @@ server:
     maxRetryAttempts: 2
     retryDelayMilliSeconds: 10
 
-services:
-  url:
-    resource-service: http://localhost:8080/api/v1/resources
-    song-service: http://localhost:8081/api/v1/songs
-
 logging:
   level:
     root: info
