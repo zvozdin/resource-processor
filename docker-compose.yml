@@ -8,9 +8,9 @@ services:
       dockerfile: Dockerfile
     container_name: resource-processor-app-microservices_course
     environment:
-      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+      SPRING_CLOUD_CONFIG_URI: ${SPRING_CLOUD_CONFIG_URI}
     networks:
+      - service-configuration_default
       - service-registry_default
       - resource-service_rabbitmq
 
@@ -18,4 +18,6 @@ networks:
   service-registry_default:
     external: true
   resource-service_rabbitmq:
+    external: true
+  service-configuration_default:
     external: true
