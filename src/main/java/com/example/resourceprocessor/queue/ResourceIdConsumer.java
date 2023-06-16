@@ -31,6 +31,9 @@ public class ResourceIdConsumer {
 
                 log.info("Calling Song-Service to save song metadata {} for ID {}", songRecordMetadataRequest, resourceId);
                 gatewayClient.saveSongRecordMetadata(songRecordMetadataRequest);
+
+                log.info("Calling Resource-Service to migrate resource for ID {}", resourceId);
+                gatewayClient.changeResourceDestination(resourceId);
             } catch (Exception e) {
                 log.error("fail to process message, ex {}", e.getMessage());
                 throw new AmqpRejectAndDontRequeueException(e.getMessage());
