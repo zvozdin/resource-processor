@@ -13,11 +13,14 @@ services:
       - service-configuration_default
       - service-registry_default
       - resource-service_rabbitmq
+      - resource-service_elasticsearch
 
 networks:
   service-registry_default:
     external: true
   resource-service_rabbitmq:
+    external: true
+  resource-service_elasticsearch:
     external: true
   service-configuration_default:
     external: true

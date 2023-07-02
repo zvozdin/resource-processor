@@ -30,6 +30,7 @@ server:
 logging:
   level:
     root: info
+  config: classpath:logback-spring-local.xml
 
 eureka:
   client:
