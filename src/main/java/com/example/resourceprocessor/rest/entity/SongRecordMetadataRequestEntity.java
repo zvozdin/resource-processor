@@ -30,15 +30,15 @@ public record SongRecordMetadataRequestEntity(
             stream.write(resource);
             Mp3File mp3file = new Mp3File(source);
 
-            if (mp3file.hasId3v1Tag()) {
-                ID3v1 id3v1Tag = mp3file.getId3v1Tag();
+            if (mp3file.hasId3v2Tag()) {
+                ID3v1 id3v2Tag = mp3file.getId3v2Tag();
                 return new SongRecordMetadataRequestEntity(
-                        id3v1Tag.getTitle(),
-                        id3v1Tag.getArtist(),
-                        id3v1Tag.getAlbum(),
+                        id3v2Tag.getTitle(),
+                        id3v2Tag.getArtist(),
+                        id3v2Tag.getAlbum(),
                         parseToAudioLengthFormat(mp3file.getLengthInSeconds()),
                         resourceId,
-                        Year.parse(id3v1Tag.getYear())
+                        Year.parse(id3v2Tag.getYear())
                 );
             }
 
